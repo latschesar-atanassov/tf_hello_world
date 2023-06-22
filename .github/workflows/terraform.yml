@@ -35,6 +35,7 @@ jobs:
         ref: ${{ inputs.template_ref }}
 
     - name: Download configuration
+      working-directory: ${{ inputs.template_path }}
       run: wget -O - ${{ inputs.configuration_uri }} > configuration.tfvars
 
     - name: Setup terraform
