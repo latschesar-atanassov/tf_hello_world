@@ -25,27 +25,27 @@ jobs:
   tf_fmt:
     name: Deploy Site
     runs-on: ubuntu-latest
-    environment: inputs.environment
+    environment: ${{ inputs.environment }}
     steps:
 
     - name: Checkout Repo
       uses: actions/checkout@v1
       with:
-        repository: inputs.template_repo
-        ref: inputs.template_ref
+        repository: ${{ inputs.template_repo }}
+        ref: ${{ inputs.template_ref }}
 
 
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v2
 
     - name: Run terraform init
-      working-directory: inputs.template_path
+      working-directory: ${{ inputs.template_path }}
       run: terraform init
 
     - name: Run terraform plan
-      working-directory: inputs.template_path
-      run: terraform plan
+      working-directory: ${{ inputs.template_path }}
+      run: terraform plan -var="name=world"
 
     - name: Run terraform apply
-      working-directory: inputs.template_path
-      run: terraform apply -auto-approve
+      working-directory: ${{ inputs.template_path }}
+      run: terraform apply -auto-approve -var="name=world"
