@@ -1,0 +1,26 @@
+on:
+  workflow_dispatch:
+
+jobs:
+  tf_fmt:
+    name: Deploy Site
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout Repo
+      uses: actions/checkout@v1
+
+    - name: Setup terraform
+      uses: hashicorp/setup-terraform@v2
+
+    - name: Run terraform init
+      working-directory: ./templates/hello_world
+      run: terraform init
+
+    - name: Run terraform plan
+      working-directory: ./templates/hello_world
+      run: terraform plan
+
+    - name: Run terraform apply
+      working-directory: ./templates/hello_world
+      run: terraform apply -auto-approve
