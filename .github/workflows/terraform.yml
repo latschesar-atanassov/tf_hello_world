@@ -34,6 +34,8 @@ jobs:
         repository: ${{ inputs.template_repo }}
         ref: ${{ inputs.template_ref }}
 
+    - name: Download configuration
+      run: wget $ {{ inputs.configuration_uri }} -o configuration.tfvars
 
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v2
@@ -44,8 +46,8 @@ jobs:
 
     - name: Run terraform plan
       working-directory: ${{ inputs.template_path }}
-      run: terraform plan -var="name=world"
+      run: terraform plan -var-file="configuration.tfvars"
 
     - name: Run terraform apply
       working-directory: ${{ inputs.template_path }}
-      run: terraform apply -auto-approve -var="name=world"
+      run: terraform apply -auto-approve -var-file="configuration.tfvars"
