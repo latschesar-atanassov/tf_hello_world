@@ -35,7 +35,7 @@ jobs:
         ref: ${{ inputs.template_ref }}
 
     - name: Download configuration
-      run: wget $ {{ inputs.configuration_uri }} -o configuration.tfvars
+      run: wget -O - ${{ inputs.configuration_uri }} > configuration.tfvars
 
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v2
