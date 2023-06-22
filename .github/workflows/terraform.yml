@@ -1,26 +1,51 @@
 on:
   workflow_dispatch:
+    inputs:
+      template_repo:
+        type: string
+        description: set template git repo
+
+      template_ref:
+        type: string
+        description: set template git ref
+
+      template_path:
+        type: string
+        description: set template module path
+
+      environment:
+        type: environment
+        description: sets github action environment 
+
+      configuration_uri:
+        type: string
+        description: sets template configuration uri
 
 jobs:
   tf_fmt:
     name: Deploy Site
     runs-on: ubuntu-latest
+    environment: inputs.environment
     steps:
 
     - name: Checkout Repo
       uses: actions/checkout@v1
+      with:
+        repository: inputs.template_repo
+        ref: inputs.template_ref
+
 
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v2
 
     - name: Run terraform init
-      working-directory: ./templates/hello_world
+      working-directory: inputs.template_path
       run: terraform init
 
     - name: Run terraform plan
-      working-directory: ./templates/hello_world
+      working-directory: inputs.template_path
       run: terraform plan
 
     - name: Run terraform apply
-      working-directory: ./templates/hello_world
+      working-directory: inputs.template_path
       run: terraform apply -auto-approve
